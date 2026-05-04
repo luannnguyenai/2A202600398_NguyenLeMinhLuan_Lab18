@@ -1,3 +1,22 @@
 [
-  {"question": "hihi cả nhà tự tạo testset bằng cơm nhé", "ground_truth": "Không kịp tạo luôn"},
+  {"question": "Nhân viên chính thức được nghỉ phép năm bao nhiêu ngày?", "ground_truth": "Nhân viên chính thức được nghỉ phép năm 12 ngày làm việc mỗi năm."},
+  {"question": "Số ngày nghỉ phép tăng thêm như thế nào theo thâm niên?", "ground_truth": "Số ngày nghỉ phép tăng thêm 1 ngày cho mỗi 5 năm thâm niên công tác."},
+  {"question": "Nhân viên cần nộp đơn xin nghỉ phép trước bao nhiêu ngày?", "ground_truth": "Nhân viên cần gửi đơn xin nghỉ phép ít nhất 3 ngày làm việc trước ngày nghỉ."},
+  {"question": "Nghỉ phép không lương tối đa bao nhiêu ngày?", "ground_truth": "Nhân viên có thể xin nghỉ phép không lương tối đa 30 ngày mỗi năm."},
+  {"question": "Khi nghỉ ốm cần nộp giấy tờ gì và trong bao lâu?", "ground_truth": "Cần nộp giấy xác nhận y tế trong vòng 3 ngày làm việc sau khi trở lại làm việc."},
+  {"question": "Lao động nữ được nghỉ thai sản bao nhiêu tháng?", "ground_truth": "Lao động nữ được nghỉ thai sản 6 tháng theo Luật Lao động."},
+  {"question": "Lao động nam được nghỉ bao nhiêu ngày khi vợ sinh?", "ground_truth": "Lao động nam được nghỉ 5 ngày làm việc khi vợ sinh con."},
+  {"question": "Mật khẩu cần thay đổi sau bao nhiêu ngày?", "ground_truth": "Mật khẩu phải thay đổi mỗi 90 ngày."},
+  {"question": "Yêu cầu độ dài mật khẩu là bao nhiêu ký tự?", "ground_truth": "Mật khẩu cần có ít nhất 12 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt."},
+  {"question": "Công ty dùng giao thức VPN nào?", "ground_truth": "VPN dùng WireGuard AES-256 để đảm bảo bảo mật kết nối từ xa."},
+  {"question": "Phiên VPN tự động ngắt sau bao lâu không hoạt động?", "ground_truth": "Phiên VPN tự động ngắt sau 8 giờ không hoạt động."},
+  {"question": "Khi thiết bị bị mất cần báo cáo trong bao lâu?", "ground_truth": "Thiết bị bị mất hoặc bị đánh cắp cần báo cáo cho IT trong vòng 2 giờ."},
+  {"question": "Backup dữ liệu cần thực hiện như thế nào?", "ground_truth": "Backup dữ liệu quan trọng mỗi ngày, lưu trữ tối thiểu 30 ngày."},
+  {"question": "Thời gian thử việc là bao nhiêu ngày với vị trí nhân viên?", "ground_truth": "Thời gian thử việc là 60 ngày đối với vị trí nhân viên."},
+  {"question": "Lương trong thời gian thử việc là bao nhiêu phần trăm?", "ground_truth": "Trong thời gian thử việc, nhân viên được hưởng 85% lương cơ bản."},
+  {"question": "Nhân viên thâm niên trên 10 năm được nghỉ tối đa bao nhiêu ngày?", "ground_truth": "Nhân viên có thâm niên trên 10 năm được nghỉ tối đa 15 ngày/năm."},
+  {"question": "Ai cần phê duyệt đơn xin nghỉ phép?", "ground_truth": "Đơn xin nghỉ phép phải được Trưởng phòng phê duyệt trước khi có hiệu lực."},
+  {"question": "Nghỉ ốm liên tục trên 5 ngày cần giấy tờ gì?", "ground_truth": "Nghỉ ốm liên tục trên 5 ngày cần có giấy ra viện hoặc giấy xác nhận của bệnh viện."},
+  {"question": "Có thể dùng lại mật khẩu cũ không?", "ground_truth": "Không được dùng lại 5 mật khẩu gần nhất."},
+  {"question": "Thời gian thử việc với vị trí quản lý là bao nhiêu ngày?", "ground_truth": "Thời gian thử việc là 90 ngày đối với vị trí quản lý."}
 ]

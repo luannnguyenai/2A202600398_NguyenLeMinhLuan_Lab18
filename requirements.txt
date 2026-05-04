@@ -1,0 +1,14 @@
+underthesea>=6.8.4
+rank-bm25>=0.2.2
+qdrant-client>=1.9.0
+sentence-transformers>=2.7.0
+FlagEmbedding>=1.2.9
+ragas>=0.1.21
+datasets>=2.19.0
+openai>=1.40.0
+python-dotenv>=1.0.0
+ruff>=0.4.0
+pytest>=8.0.0
+numpy>=1.24.0
+pandas>=2.0.0
+tqdm>=4.66.0
