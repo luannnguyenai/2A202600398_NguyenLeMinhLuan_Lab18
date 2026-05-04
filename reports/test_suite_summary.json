@@ -1,0 +1,5 @@
+{
+  "passed": 43,
+  "total": 43,
+  "source": "python3 -m pytest tests/ -v"
+}

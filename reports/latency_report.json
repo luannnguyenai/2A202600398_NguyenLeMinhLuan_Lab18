@@ -1,0 +1,129 @@
+{
+  "num_queries": 20,
+  "avg_search_ms": 308.5266999500043,
+  "avg_rerank_ms": 2257.8485645000046,
+  "avg_generate_ms": 0.03921039999710274,
+  "avg_total_ms": 2566.414474850006,
+  "per_query": [
+    {
+      "search_ms": 103.4173330000101,
+      "rerank_ms": 12519.88333300001,
+      "generate_ms": 0.05845800001225143,
+      "query": "Nhân viên chính thức được nghỉ phép năm bao nhiêu ngày?"
+    },
+    {
+      "search_ms": 292.44033300000183,
+      "rerank_ms": 1992.7086249999916,
+      "generate_ms": 0.1396669999991218,
+      "query": "Số ngày nghỉ phép tăng thêm như thế nào theo thâm niên?"
+    },
+    {
+      "search_ms": 532.1952500000009,
+      "rerank_ms": 1700.2113749999949,
+      "generate_ms": 0.029334000004155314,
+      "query": "Nhân viên cần nộp đơn xin nghỉ phép trước bao nhiêu ngày?"
+    },
+    {
+      "search_ms": 111.55787500000258,
+      "rerank_ms": 1476.1652920000047,
+      "generate_ms": 0.006582999986903815,
+      "query": "Nghỉ phép không lương tối đa bao nhiêu ngày?"
+    },
+    {
+      "search_ms": 582.2535000000073,
+      "rerank_ms": 1748.065208,
+      "generate_ms": 0.05262499999503234,
+      "query": "Khi nghỉ ốm cần nộp giấy tờ gì và trong bao lâu?"
+    },
+    {
+      "search_ms": 230.49512499999025,
+      "rerank_ms": 1611.2885000000006,
+      "generate_ms": 0.005375000000640284,
+      "query": "Lao động nữ được nghỉ thai sản bao nhiêu tháng?"
+    },
+    {
+      "search_ms": 84.30662499999642,
+      "rerank_ms": 1768.4668750000014,
+      "generate_ms": 0.011499999999387,
+      "query": "Lao động nam được nghỉ bao nhiêu ngày khi vợ sinh?"
+    },
+    {
+      "search_ms": 607.3763750000012,
+      "rerank_ms": 1349.2956250000107,
+      "generate_ms": 0.025499999992462108,
+      "query": "Mật khẩu cần thay đổi sau bao nhiêu ngày?"
+    },
+    {
+      "search_ms": 75.20737500000507,
+      "rerank_ms": 1629.3317089999987,
+      "generate_ms": 0.005249999986745024,
+      "query": "Yêu cầu độ dài mật khẩu là bao nhiêu ký tự?"
+    },
+    {
+      "search_ms": 87.9705830000006,
+      "rerank_ms": 1552.470833000001,
+      "generate_ms": 0.004458000006479779,
+      "query": "Công ty dùng giao thức VPN nào?"
+    },
+    {
+      "search_ms": 77.66374999999925,
+      "rerank_ms": 1498.4636249999994,
+      "generate_ms": 0.0057909999924277145,
+      "query": "Phiên VPN tự động ngắt sau bao lâu không hoạt động?"
+    },
+    {
+      "search_ms": 75.00874999999496,
+      "rerank_ms": 1416.9722500000007,
+      "generate_ms": 0.004332999992584519,
+      "query": "Khi thiết bị bị mất cần báo cáo trong bao lâu?"
+    },
+    {
+      "search_ms": 71.1104579999926,
+      "rerank_ms": 1611.153750000014,
+      "generate_ms": 0.06645899998147797,
+      "query": "Backup dữ liệu cần thực hiện như thế nào?"
+    },
+    {
+      "search_ms": 1089.965417000002,
+      "rerank_ms": 3881.7945000000122,
+      "generate_ms": 0.036582999996426224,
+      "query": "Thời gian thử việc là bao nhiêu ngày với vị trí nhân viên?"
+    },
+    {
+      "search_ms": 382.55495800001427,
+      "rerank_ms": 1664.8875000000203,
+      "generate_ms": 0.0042919999998503044,
+      "query": "Lương trong thời gian thử việc là bao nhiêu phần trăm?"
+    },
+    {
+      "search_ms": 83.08687500002065,
+      "rerank_ms": 1671.6788330000156,
+      "generate_ms": 0.034499999998161,
+      "query": "Nhân viên thâm niên trên 10 năm được nghỉ tối đa bao nhiêu ngày?"
+    },
+    {
+      "search_ms": 220.00995800001988,
+      "rerank_ms": 1551.7426659999956,
+      "generate_ms": 0.012749999996231054,
+      "query": "Ai cần phê duyệt đơn xin nghỉ phép?"
+    },
+    {
+      "search_ms": 361.6116250000232,
+      "rerank_ms": 1706.2684160000003,
+      "generate_ms": 0.003792000001112683,
+      "query": "Nghỉ ốm liên tục trên 5 ngày cần giấy tờ gì?"
+    },
+    {
+      "search_ms": 125.0750000000096,
+      "rerank_ms": 1652.3980830000085,
+      "generate_ms": 0.20716699998502008,
+      "query": "Có thể dùng lại mật khẩu cũ không?"
+    },
+    {
+      "search_ms": 977.2268339999926,
+      "rerank_ms": 1153.724292000021,
+      "generate_ms": 0.06979100001558436,
+      "query": "Thời gian thử việc với vị trí quản lý là bao nhiêu ngày?"
+    }
+  ]
+}

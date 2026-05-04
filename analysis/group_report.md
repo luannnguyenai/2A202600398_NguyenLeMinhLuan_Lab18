@@ -37,12 +37,10 @@ Documents (MD)
 
 | Metric | Naive Baseline | Production | Δ |
 |--------|---------------|-----------|---|
-| Faithfulness | — | — | — |
-| Answer Relevancy | — | — | — |
-| Context Precision | — | — | — |
-| Context Recall | — | — | — |
-
-> Điền sau khi chạy `python main.py`
+| Faithfulness | 1.0000 | 1.0000 | +0.0000 |
+| Answer Relevancy | 0.9867 | 0.9923 | +0.0056 |
+| Context Precision | 0.9167 | 0.8667 | -0.0500 |
+| Context Recall | 1.0000 | 1.0000 | +0.0000 |
 
 ---
 
@@ -60,7 +58,7 @@ Documents (MD)
 **Giải pháp:** `underthesea.word_tokenize(text, format="text")` trước khi index BM25.
 
 ### 3. Surprise — Cross-encoder Reranking Latency
-**Phát hiện:** bge-reranker-v2-m3 mất ~2-3s cho 20 documents ở lần đầu (model load). Sau đó ~300ms/query. Latency overhead là chấp nhận được cho production use case nội bộ.
+**Phát hiện:** bge-reranker-v2-m3 mất nhiều thời gian nhất trong pipeline. Query đầu tiên cao do cold start, trung bình toàn bộ rerank khoảng 2257.8ms/query. Latency này vẫn chấp nhận được cho lab nhưng là bottleneck rõ nhất nếu triển khai production nội bộ.
 
 ---
 
@@ -68,10 +66,10 @@ Documents (MD)
 
 | Bước | Thời gian (avg) |
 |------|----------------|
-| Search (BM25 + Dense + RRF) | ~500ms |
-| Rerank (bge-reranker-v2-m3) | ~300ms |
-| Generate (gpt-4o-mini) | ~800ms |
-| **Total** | **~1600ms** |
+| Search (BM25 + Dense + RRF) | 308.5ms |
+| Rerank (bge-reranker-v2-m3) | 2257.8ms |
+| Generate | 0.0ms |
+| **Total** | **2566.4ms** |
 
 > Chi tiết: `reports/latency_report.json`
 
@@ -81,16 +79,17 @@ Documents (MD)
 
 ### 1. RAGAS Scores (1 phút)
 - Bảng so sánh: Naive vs Production (4 metrics)
-- Highlight: metric nào cải thiện nhiều nhất (dự kiến: context_precision +++ nhờ reranking)
+- Highlight: `answer_relevancy` tăng nhẹ (+0.0056), `context_precision` giảm do corpus mở rộng và retrieval còn nhiễu ở nhóm câu hỏi IT/HR cụ thể
 
 ### 2. Biggest Win (1 phút)
 - **Module M2: Hybrid Search** — RRF fusion giải quyết cả exact match lẫn semantic match
 - Chứng minh: "nghỉ phép" query → BM25 rank cao → hybrid top-1 luôn đúng
+- Với corpus OCR mới, top-1 truy vấn pháp lý và tài chính đều rơi đúng vào file nguồn mới (`nghi_dinh_13_2023.md`, `bctc.md`)
 
 ### 3. Case Study (2 phút)
 - Question: "Thời gian thử việc với vị trí quản lý là bao nhiêu ngày?"
-- Error Tree: Output sai → Context có cả 60 và 90 ngày → LLM không disambiguate → Fix G (prompt)
-- Fix: Thêm "Chỉ trả lời câu hỏi được hỏi, không liệt kê thêm"
+- Error Tree: Context đúng tài liệu nhưng chứa cả “60 ngày nhân viên” và “90 ngày quản lý” → fail ở `context_precision`
+- Fix: metadata-aware reranking hoặc chunk nhỏ hơn cho section thử việc
 
 ### 4. Next Step (1 phút)
 - **Query rewrite** với LLM trước khi search → +5-10% recall

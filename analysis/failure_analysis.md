@@ -9,12 +9,14 @@
 
 | Metric | Naive Baseline | Production | Δ |
 |--------|---------------|------------|---|
-| Faithfulness | *xem reports/naive_baseline_report.json* | *xem reports/ragas_report.json* | TBD |
-| Answer Relevancy | TBD | TBD | TBD |
-| Context Precision | TBD | TBD | TBD |
-| Context Recall | TBD | TBD | TBD |
+| Faithfulness | 1.0000 | 1.0000 | +0.0000 |
+| Answer Relevancy | 0.9867 | 0.9923 | +0.0056 |
+| Context Precision | 0.9167 | 0.8667 | -0.0500 |
+| Context Recall | 1.0000 | 1.0000 | +0.0000 |
 
-> **Note:** Chạy `python main.py` để sinh số liệu thực tế.
+Nguồn số liệu:
+- `reports/naive_baseline_report.json`
+- `reports/ragas_report.json`
 
 ---
 
@@ -36,86 +38,68 @@ Bước 3: Query rewrite/search có đúng không?
 
 ## Bottom-5 Failures
 
-### #1 — Thời gian thử việc quản lý
+### #1 — Mật khẩu cần thay đổi sau bao nhiêu ngày?
 
-- **Question:** Thời gian thử việc với vị trí quản lý là bao nhiêu ngày?
 - **Expected:** 90 ngày
-- **Got:** (sau khi chạy pipeline)
-- **Worst metric:** context_precision (nhiều chunks không liên quan về "ngày")
-- **Error Tree:**
-  - Output sai → Context đúng? → Có (có mention 90 ngày)
-  - → LLM không filter đúng vị trí "quản lý" → Fix G
-- **Root cause:** LLM không distinguish "60 ngày nhân viên" vs "90 ngày quản lý" khi context có cả hai
-- **Suggested fix:** Metadata filter theo category="hr", thêm reranking với query expansion
+- **Worst metric:** `context_precision = 0.3333`
+- **Diagnosis:** Too many irrelevant chunks
+- **Error Tree:** Output có thể đúng nhưng context lẫn nhiều đoạn khác ngoài section mật khẩu.
+- **Root cause:** Retrieval trả về thêm chunks từ các vùng IT policy không trực tiếp nói về chu kỳ đổi mật khẩu.
+- **Suggested fix:** Thêm metadata filter theo `category="it"` hoặc rerank mạnh hơn cho các query bảo mật.
 
-### #2 — Mật khẩu không được dùng lại
+### #2 — Yêu cầu độ dài mật khẩu là bao nhiêu ký tự?
 
-- **Question:** Có thể dùng lại mật khẩu cũ không?
-- **Expected:** Không được dùng lại 5 mật khẩu gần nhất
-- **Got:** (sau khi chạy pipeline)
-- **Worst metric:** context_recall (chunk về mật khẩu bị chia nhỏ quá)
-- **Error Tree:**
-  - Output sai → Context đúng? → Không (context thiếu thông tin)
-  - → Query rewrite OK? → Không rõ ("dùng lại" ≠ "mật khẩu cũ")
-  - → Fix R/A: BM25 cần segment "dùng lại mật khẩu" + HyQA
-- **Root cause:** Vocabulary gap: "dùng lại" không match "không được dùng lại 5 mật khẩu"
-- **Suggested fix:** HyQA enrichment + query expansion với underthesea
+- **Expected:** Ít nhất 12 ký tự
+- **Worst metric:** `context_precision = 0.3333`
+- **Diagnosis:** Too many irrelevant chunks
+- **Error Tree:** Context có câu trả lời nhưng nhiễu bởi các chunk khác cùng document về VPN và thiết bị.
+- **Root cause:** Chunk structure-aware ở file IT vẫn hơi rộng đối với các câu hỏi ngắn về một policy cụ thể.
+- **Suggested fix:** Chia nhỏ section IT policy hơn nữa hoặc áp dụng MMR để giảm chunk gần trùng nhau.
 
-### #3 — Nghỉ ốm liên tục
+### #3 — Thời gian thử việc với vị trí quản lý là bao nhiêu ngày?
 
-- **Question:** Nghỉ ốm liên tục trên 5 ngày cần giấy tờ gì?
-- **Expected:** Giấy ra viện hoặc giấy xác nhận bệnh viện
-- **Got:** (sau khi chạy pipeline)
-- **Worst metric:** faithfulness (LLM thêm thông tin không có trong context)
-- **Error Tree:**
-  - Output sai → Context đúng? → Có
-  - → LLM hallucinate thêm điều kiện không có trong policy
-  - → Fix G: temperature=0, strict prompt
-- **Root cause:** LLM generalize từ "giấy xác nhận" thành nhiều loại giấy tờ
-- **Suggested fix:** Tighten prompt: "CHỈ liệt kê những gì được nêu rõ trong CONTEXT"
+- **Expected:** 90 ngày
+- **Worst metric:** `context_precision = 0.6667`
+- **Diagnosis:** Too many irrelevant chunks
+- **Error Tree:** Output sai chỉ xảy ra khi context chứa đồng thời cả “60 ngày nhân viên” và “90 ngày quản lý”.
+- **Root cause:** Retrieval đúng tài liệu nhưng chưa đủ sắc nét ở mức đoạn, nên reranker vẫn giữ lại chunk có thông tin của cả hai đối tượng.
+- **Suggested fix:** Thêm metadata hoặc query expansion để phân biệt rõ `nhân viên` và `quản lý`.
 
-### #4 — Phiên VPN timeout
+### #4 — Khi nghỉ ốm cần nộp giấy tờ gì và trong bao lâu?
 
-- **Question:** Phiên VPN tự động ngắt sau bao lâu không hoạt động?
-- **Expected:** 8 giờ
-- **Got:** (sau khi chạy pipeline)
-- **Worst metric:** context_precision (BM25 trả về nhiều doc về "ngày" thay vì "giờ")
-- **Error Tree:**
-  - Output sai → Context đúng? → Không (context là doc về nghỉ phép, không phải VPN)
-  - → Fix R/A: Dense search cần embed "VPN timeout" tốt hơn
-- **Root cause:** "phiên VPN" là domain-specific term, bge-m3 cần fine-tune hoặc metadata filter
-- **Suggested fix:** Thêm metadata category="it" filter, dùng MMR trong Qdrant
+- **Expected:** Giấy xác nhận y tế trong vòng 3 ngày làm việc
+- **Worst metric:** `context_precision = 0.6667`
+- **Diagnosis:** Too many irrelevant chunks
+- **Error Tree:** Context đúng nhưng có thể kèm thêm các đoạn khác của HR policy như nghỉ phép năm hoặc thai sản.
+- **Root cause:** Chunking theo section vẫn để section HR khá dài; câu hỏi cần 1 policy con rất cụ thể.
+- **Suggested fix:** Tách nhỏ section theo tiểu mục `## Nghỉ ốm`, `## Nghỉ thai sản`, `## Nghỉ phép năm` sớm hơn ở giai đoạn ingest.
 
-### #5 — Lương thử việc
+### #5 — Lương trong thời gian thử việc là bao nhiêu phần trăm?
 
-- **Question:** Lương trong thời gian thử việc là bao nhiêu phần trăm?
 - **Expected:** 85% lương cơ bản
-- **Got:** (sau khi chạy pipeline)
-- **Worst metric:** answer_relevancy (answer nói về thời gian thay vì phần trăm lương)
-- **Error Tree:**
-  - Output sai → Context đúng? → Có (85% có trong context)
-  - → LLM không focus vào phần trăm lương khi trả lời
-  - → Fix G: prompt cần nhấn mạnh "trả lời đúng trọng tâm câu hỏi"
-- **Root cause:** Context chứa cả thông tin thời gian (60/90 ngày) và lương (85%), LLM trả lời về cả hai
-- **Suggested fix:** Few-shot prompt với ví dụ: Q: "bao nhiêu %?" → A: "85%"
+- **Worst metric:** `context_precision = 0.6667`
+- **Diagnosis:** Too many irrelevant chunks
+- **Error Tree:** Context đúng nhưng đi cùng thông tin “60 ngày/90 ngày” khiến answer dễ lan sang thời lượng thử việc.
+- **Root cause:** Query hỏi về tỷ lệ phần trăm nhưng retrieval vẫn ưu tiên đoạn tổng quát về thử việc thay vì chỉ phần lương.
+- **Suggested fix:** Query rewrite bổ sung từ khóa `phần trăm`, `lương cơ bản`, hoặc metadata-aware reranking.
 
 ---
 
-## Case Study Chi tiết (cho Presentation)
+## Case Study Chi tiết
 
-**Question chọn phân tích:** "Nhân viên được nghỉ phép không lương tối đa bao nhiêu ngày?"
+**Question chọn phân tích:** `Thời gian thử việc với vị trí quản lý là bao nhiêu ngày?`
 
-**Error Tree walkthrough:**
-1. **Output đúng?** → Kiểm tra answer có chứa "30 ngày" không
-2. **Context đúng?** → Check top-3 contexts có mention "30 ngày" và "không lương"
-3. **Query rewrite OK?** → "nghỉ phép không lương" segment thành ["nghỉ phép", "không lương"] → BM25 match tốt
-4. **Fix ở bước:** Nếu context đúng mà answer sai → Fix G (LLM prompt)
+**Walkthrough theo Error Tree:**
+1. Output đúng không?  
+   Không ổn định nếu context chứa đồng thời “60 ngày” và “90 ngày”.
+2. Context đúng không?  
+   Có. Các chunk top đầu đều đến từ IT policy đúng nguồn.
+3. Vì sao vẫn fail ở `context_precision`?  
+   Vì ngoài câu chứa “90 ngày đối với vị trí quản lý”, retrieval còn giữ thêm phần “60 ngày đối với vị trí nhân viên”.
+4. Root cause cuối cùng:  
+   Retrieval và rerank chưa tách đủ rõ hai biến thể cùng chủ đề “thử việc”.
 
-**Analysis:** Đây là query dễ nếu retrieval tốt. Failure thường xảy ra khi:
-- BM25 không segment "không lương" đúng → underthesea fix
-- Dense search không distinguish "nghỉ phép năm" vs "nghỉ phép không lương" → hierarchical chunking tách section giúp
-
-**Nếu có thêm 1 giờ, sẽ optimize:**
-- Fine-tune threshold trong semantic chunking (hiện dùng 0.85, thử 0.75)
-- Thêm MMR (Maximal Marginal Relevance) để đa dạng context
-- Query rewrite với LLM trước khi search
+**Hướng tối ưu tiếp theo:**
+- Tách section thử việc thành chunks nhỏ hơn.
+- Thêm rerank features theo entity/role (`nhân viên`, `quản lý`).
+- Dùng metadata filter khi query có role-specific term.

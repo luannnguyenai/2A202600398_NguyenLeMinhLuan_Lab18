@@ -1,0 +1,81 @@
+{
+  "aggregate": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.9923076923076923,
+    "context_precision": 0.8666666666666667,
+    "context_recall": 1.0
+  },
+  "num_questions": 20,
+  "failures": [
+    {
+      "question": "Mật khẩu cần thay đổi sau bao nhiêu ngày?",
+      "worst_metric": "context_precision",
+      "score": 0.3333333333333333,
+      "diagnosis": "Too many irrelevant chunks",
+      "suggested_fix": "Add reranking or metadata filter"
+    },
+    {
+      "question": "Yêu cầu độ dài mật khẩu là bao nhiêu ký tự?",
+      "worst_metric": "context_precision",
+      "score": 0.3333333333333333,
+      "diagnosis": "Too many irrelevant chunks",
+      "suggested_fix": "Add reranking or metadata filter"
+    },
+    {
+      "question": "Thời gian thử việc với vị trí quản lý là bao nhiêu ngày?",
+      "worst_metric": "context_precision",
+      "score": 0.6666666666666666,
+      "diagnosis": "Too many irrelevant chunks",
+      "suggested_fix": "Add reranking or metadata filter"
+    },
+    {
+      "question": "Khi nghỉ ốm cần nộp giấy tờ gì và trong bao lâu?",
+      "worst_metric": "context_precision",
+      "score": 0.6666666666666666,
+      "diagnosis": "Too many irrelevant chunks",
+      "suggested_fix": "Add reranking or metadata filter"
+    },
+    {
+      "question": "Lương trong thời gian thử việc là bao nhiêu phần trăm?",
+      "worst_metric": "context_precision",
+      "score": 0.6666666666666666,
+      "diagnosis": "Too many irrelevant chunks",
+      "suggested_fix": "Add reranking or metadata filter"
+    },
+    {
+      "question": "Có thể dùng lại mật khẩu cũ không?",
+      "worst_metric": "context_precision",
+      "score": 0.6666666666666666,
+      "diagnosis": "Too many irrelevant chunks",
+      "suggested_fix": "Add reranking or metadata filter"
+    },
+    {
+      "question": "Thời gian thử việc là bao nhiêu ngày với vị trí nhân viên?",
+      "worst_metric": "answer_relevancy",
+      "score": 0.9230769230769231,
+      "diagnosis": "Performance acceptable but below target",
+      "suggested_fix": "Fine-tune retrieval parameters"
+    },
+    {
+      "question": "Nhân viên chính thức được nghỉ phép năm bao nhiêu ngày?",
+      "worst_metric": "faithfulness",
+      "score": 1.0,
+      "diagnosis": "Performance acceptable but below target",
+      "suggested_fix": "Fine-tune retrieval parameters"
+    },
+    {
+      "question": "Số ngày nghỉ phép tăng thêm như thế nào theo thâm niên?",
+      "worst_metric": "faithfulness",
+      "score": 1.0,
+      "diagnosis": "Performance acceptable but below target",
+      "suggested_fix": "Fine-tune retrieval parameters"
+    },
+    {
+      "question": "Nhân viên cần nộp đơn xin nghỉ phép trước bao nhiêu ngày?",
+      "worst_metric": "faithfulness",
+      "score": 1.0,
+      "diagnosis": "Performance acceptable but below target",
+      "suggested_fix": "Fine-tune retrieval parameters"
+    }
+  ]
+}
