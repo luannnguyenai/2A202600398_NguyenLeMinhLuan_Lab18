@@ -101,6 +101,9 @@ Documents (MD)
 
 ## Nhận xét kỹ thuật
 
+### Mở rộng corpus bằng OCR PDF
+Pipeline ingest mới đã mở rộng corpus từ hai file markdown mẫu sang thêm hai PDF tiếng Việt thực tế: một văn bản pháp lý dài và một tài liệu tài chính nhiều số liệu. Việc OCR + chuẩn hóa markdown giúp tăng độ phủ ngữ nghĩa cho các truy vấn ngoài miền HR/IT ban đầu, đặc biệt là các câu hỏi về quyền của chủ thể dữ liệu và số liệu doanh thu/thuế. Về mặt RAGAS, thay đổi này kỳ vọng cải thiện rõ nhất ở `context_recall` vì hệ thống có thể truy xuất được các đoạn trước đây hoàn toàn không có trong corpus, đồng thời giữ được `context_precision` ở mức chấp nhận được nhờ chunking theo cấu trúc và index dense bằng `BAAI/bge-m3`.
+
 ### Chunking Strategy Comparison
 | Strategy | Pros | Cons | Best For |
 |----------|------|------|---------|
