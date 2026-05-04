@@ -37,6 +37,33 @@ cp .env.example .env                    # Điền API keys
 python naive_baseline.py                # ⚠️ Chạy TRƯỚC để có baseline
 ```
 
+## Ingest PDF (OCR)
+
+System dependencies:
+
+```bash
+# macOS
+brew install tesseract tesseract-lang poppler
+
+# Ubuntu
+sudo apt-get install -y tesseract-ocr tesseract-ocr-vie poppler-utils
+```
+
+CLI examples:
+
+```bash
+python3 src/ingest_pdf.py \
+  --input data/raw/BCTC.pdf data/raw/Nghi_dinh_so_13-2023_ve_bao_ve_du_lieu_ca_nhan_508ee.pdf \
+  --out-dir data \
+  --strategy structure \
+  --index
+```
+
+Ghi chú:
+- OCR cache được lưu tại `data/.cache/ocr/<sha256>.json` để re-run idempotent.
+- Ưu tiên text layer nếu PDF đã có text; chỉ OCR các trang thiếu text hoặc khi dùng `--force-ocr`.
+- OCR output có thể chứa dữ liệu nhạy cảm của tài liệu gốc, cần quản lý thư mục cache phù hợp.
+
 ## Chạy toàn bộ
 
 ```bash
